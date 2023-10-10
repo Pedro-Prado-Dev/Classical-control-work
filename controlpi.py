@@ -24,9 +24,9 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-kp = kp/1.99
-Ti = Ti*1.04
-Td = Td/50
+kp = kp/2
+Ti = Ti*1.05
+Td = Td/8
 
 # Integral do erro
 kp_IE=1/((Theta/tau)+0.2)
