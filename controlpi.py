@@ -4,15 +4,17 @@ import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
 mat=loadmat('TransferFunction6.mat')
-print(mat)
+# print(mat)
 #Variáveis
 degrau = mat.get('degrau')
 saida=mat.get('saida')
 t1 = mat.get('t')
 
 amplitude_degrau = max(degrau)
+amplitude_saida = max(saida)
 #considerando uma função de transferencia em malha aberta FT=k/(tau*s+1)
-k=21/6
+k=amplitude_saida/amplitude_degrau
+k = k[0]
 tau= 14.95
 Theta = 5.98 # atraso de propagação
 #parâmetros do controlador kp+kp/(Ti*s)+kp*Td*s
@@ -22,9 +24,9 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-# kp = kp/10
-# Ti = Ti*100
-# Td = Td/100
+kp = kp/1.99
+Ti = Ti*1.04
+Td = Td/50
 
 # Integral do erro
 kp_IE=1/((Theta/tau)+0.2)
@@ -65,10 +67,8 @@ Hkd=cnt.tf(numkd , denkd)
 Hctrl1 = cnt.parallel (Hkp , Hki)
 Hctrl = cnt.parallel (Hctrl1 , Hkd)
 Hdel = cnt.series (Hs , Hctrl)
-Hdel = cnt.series (Hs , Hctrl)
 Hcl1 = cnt.feedback(Hdel, 1)
-Hcl1 = amplitude_degrau*Hcl1*k
-
+Hcl1 = Hcl1*k
 
 # Controlador proporcional kp+kp/(Ti*s)+kp*Td*s
 numkp = np. array ([kp_IE])
@@ -87,14 +87,16 @@ Hctrl1 = cnt.parallel (Hkp , Hki)
 Hctrl = cnt.parallel (Hctrl1 , Hkd)
 Hdel = cnt.series (Hs , Hctrl)
 Hcl2 = cnt.feedback(Hdel, 1)
-Hcl2 = amplitude_degrau*Hcl2*k
+Hcl2 = Hcl2*k
 
-(t1 , y1 ) = cnt.step_response ( Hcl1, t1 )
-(t1 , y2 ) = cnt.step_response ( Hcl2, t1 )
+(t1 , y1 ) = cnt.step_response ( Hcl1, t1)
+(t1 , y2 ) = cnt.step_response ( Hcl2, t1)
+y1 = y1*amplitude_degrau
+y2 = y2*amplitude_degrau
 plot1=plt.plot(t1.T,saida, label='Saída')
 plot2=plt.plot(t1.T,degrau,label='degrau de entrada')
 plot3=plt.plot (t1 , y1 ,label='CHR')
-plot4=plt.plot (t1 , y2,label='Integral do erro' )
+# plot4=plt.plot (t1 , y2,label='Integral do erro' )
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
