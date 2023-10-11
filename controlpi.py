@@ -37,6 +37,10 @@ kp_IE = kp_IE/k
 Ti_IE = Ti_IE*Theta
 Td_IE = Td_IE*Theta
 
+kp_IE = kp_IE/2.15
+Ti_IE = Ti_IE*0.992
+Td_IE = Td_IE/0.3
+
 #Calcular esses três -> copiar em um novo arquivo, dps copiar até hs, depois pega o plot e trocar hcl por hs
 #no (t, y ) da para calcular multiplicando hs com degrau
 print(kp)
@@ -96,7 +100,7 @@ y2 = y2*amplitude_degrau
 plot1=plt.plot(t1.T,saida, label='Saída')
 plot2=plt.plot(t1.T,degrau,label='degrau de entrada')
 plot3=plt.plot (t1 , y1 ,label='CHR')
-# plot4=plt.plot (t1 , y2,label='Integral do erro' )
+plot4=plt.plot (t1 , y2,label='Integral do erro' )
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
