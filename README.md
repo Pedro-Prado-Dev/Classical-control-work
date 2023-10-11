@@ -1,6 +1,4 @@
-# Sem título
-
-## Trabalho Controle Clássico
+# Trabalho Controle Clássico
 
 O método CHR proposto por [Chien, Hrones e Reswick, 1952] propõe dois critérios de desempenho:
 
