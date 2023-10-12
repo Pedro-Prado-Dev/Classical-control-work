@@ -14,6 +14,10 @@ O método da Integral do Erro-IAE
 
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
+      k = amplitude_saida/amplitude_degrau
+      0 = t2-t=5,98
+      t = 1.5(t2-t1)=14,95
+
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
