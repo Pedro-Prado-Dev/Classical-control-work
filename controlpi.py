@@ -8,7 +8,7 @@ mat=loadmat('TransferFunction6.mat')
 #Variáveis
 degrau = mat.get('degrau')
 saida=mat.get('saida')
-t1 = mat.get('t')
+t = mat.get('t')
 
 amplitude_degrau = max(degrau)
 amplitude_saida = max(saida)
@@ -41,12 +41,34 @@ kp_IE = kp_IE/2.15
 Ti_IE = Ti_IE*0.992
 Td_IE = Td_IE/0.3
 
-#Calcular esses três -> copiar em um novo arquivo, dps copiar até hs, depois pega o plot e trocar hcl por hs
-#no (t, y ) da para calcular multiplicando hs com degrau
+# Função para criar o PID
+def criarPID(kp,Ti,Td,Hs):
+    # Controlador proporcional
+    numkp = np. array ([kp])
+    denkp = np. array ([1])
+    #integral
+    numki = np. array ([kp])
+    denki = np. array ([Ti,0])
+    #derivativo
+    numkd = np. array ([kp*Td,0])
+    denkd = np. array ([1])
+    #Construindo o controlador PID
+    Hkp = cnt.tf(numkp , denkp)
+    Hki=cnt.tf(numki , denki)
+    Hkd=cnt.tf(numkd , denkd)
+    Hctrl1 = cnt.parallel (Hkp , Hki)
+    Hctrl = cnt.parallel (Hctrl1 , Hkd)
+    Hdel = cnt.series (Hs , Hctrl)
+    Hcl1 = cnt.feedback(Hdel, 1)
+    Hcl1 = Hcl1*k
+    
+    return Hcl1
+
 print(kp)
 print(Ti)
 print(Td)
-#escrevendo a função de transferência da planta
+
+# Função de transferência da planta
 num = np. array ([k])
 den = np. array ([tau , 1])
 H = cnt.tf(num , den)
@@ -55,58 +77,49 @@ n_pade = 20
 H_pade = cnt.tf( num_pade , den_pade )
 Hs = cnt.series (H , H_pade)
 
-# Controlador proporcional
-numkp = np. array ([kp])
-denkp = np. array ([1])
-#integral
-numki = np. array ([kp])
-denki = np. array ([Ti,0])
-#derivativo
-numkd = np. array ([kp*Td,0])
-denkd = np. array ([1])
-#Construindo o controlador PID
-Hkp = cnt.tf(numkp , denkp)
-Hki=cnt.tf(numki , denki)
-Hkd=cnt.tf(numkd , denkd)
-Hctrl1 = cnt.parallel (Hkp , Hki)
-Hctrl = cnt.parallel (Hctrl1 , Hkd)
-Hdel = cnt.series (Hs , Hctrl)
-Hcl1 = cnt.feedback(Hdel, 1)
-Hcl1 = Hcl1*k
+# Pega as informações digitadas pelo usuário
+kp_USU = float(input('Entre com o valor de Kp: '))
+Ti_USU = float(input('Entre com o valor de Ti: '))
+Td_USU = float(input('Entre com o valor de Td: '))
+setpoint = float(input('Entre com o setpoint: '))
 
-# Controlador proporcional kp+kp/(Ti*s)+kp*Td*s
-numkp = np. array ([kp_IE])
-denkp = np. array ([1])
-#integral
-numki = np. array ([kp_IE])
-denki = np. array ([Ti_IE,0])
-#derivativo
-numkd = np. array ([kp_IE*Td_IE,0])
-denkd = np. array ([1])
-#Construindo o controlador PID
-Hkp = cnt.tf(numkp , denkp)
-Hki=cnt.tf(numki , denki)
-Hkd=cnt.tf(numkd , denkd)
-Hctrl1 = cnt.parallel (Hkp , Hki)
-Hctrl = cnt.parallel (Hctrl1 , Hkd)
-Hdel = cnt.series (Hs , Hctrl)
-Hcl2 = cnt.feedback(Hdel, 1)
-Hcl2 = Hcl2*k
+# Cria os PIDs
+Hcl_CHR = criarPID(kp,Ti,Td,Hs) # CHR
+Hcl_IE = criarPID(kp_IE,Ti_IE,Td_IE,Hs) # Integral de erro
+Hcl_USU = criarPID(kp_USU,Ti_USU,Td_USU,Hs) # Usuário
 
-(t1 , y1 ) = cnt.step_response ( Hcl1, t1)
-(t1 , y2 ) = cnt.step_response ( Hcl2, t1)
-y1 = y1*amplitude_degrau
-y2 = y2*amplitude_degrau
+# Calcula a resposta ao impulso
+(t , y_CHR ) = cnt.step_response ( Hcl_CHR, t)
+(t , y_IE ) = cnt.step_response ( Hcl_IE, t)
+(t , y_USU ) = cnt.step_response ( Hcl_USU, t)
+y_CHR = y_CHR*amplitude_degrau
+y_IE = y_IE*amplitude_degrau
+y_USU = y_USU*amplitude_degrau
 
+# Plot
+plt.subplot(2,1,1)
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot3=plt.plot(t.T, y_CHR, label='CHR')
+plot4=plt.plot(t.T, y_IE, label='Integral do erro' )
 
-plot1=plt.plot(t1.T,saida, label='Saída')
-plot2=plt.plot(t1.T,degrau,label='degrau de entrada')
-plot3=plt.plot (t1 , y1 ,label='CHR')
-plot4=plt.plot (t1 , y2,label='Integral do erro' )
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
 plt.title('Controle PID')
-
 plt.grid ()
+
+saida_usuario = (saida/amplitude_saida)*setpoint
+
+plt.subplot(2,1,2)
+plot1=plt.plot(t.T, saida_usuario, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot4=plt.plot(t.T, y_USU, label='Usuário' )
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Controle PID')
+plt.grid ()
+
 plt.show()
