@@ -20,6 +20,10 @@ O método da Integral do Erro-IAE
 
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
+Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; RESWICK (1952). O método CHR é baseado em dois critérios: a resposta mais rápida sem sobressinal; e a resposta mais rápida possível com 20% de sobressinal. O método em questão considera tanto a sintonia para o problema regulador como para o problema servo. Em todos os casos, considera-se o sistema se comportando como um sistema de primeira ordem com atraso, com ganho estático K, constante de tempo t e tempo morto. A determinação desses parâmetros é feita analisando a resposta do processo por meio de um experimento em malha aberta a uma entrada em degrau.
+
+Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
+
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
 R: CHR 1:
 Kp - dividindo por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
