@@ -7,8 +7,10 @@ O método CHR proposto por [Chien, Hrones e Reswick, 1952] propõe dois critéri
 - As sintonias são obtidas tanto para o problema servo (mudança de valor do setpoint) como para o problema regulatório (perturbação de carga com setpoint constante).
 
 O método da Integral do Erro-IAE 
+
 1 - Carregue a função de transferência da planta destinada ao seu grupo. Para carregar os dados no MATLAB, execute os seguintes comandos:
 - load('TransferFunction1.mat'). Isso resultará na exibição das variáveis de saída, do grau e do tempo (t). Existem 17 arquivos, considere "TransferFunctionX", com X representando o número do grupo de acordo com o arquivo do Excel, como exemplificado acima para o grupo 1.
+
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
