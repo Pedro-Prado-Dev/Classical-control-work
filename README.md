@@ -15,10 +15,10 @@ O método da Integral do Erro-IAE
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
       k = amplitude_saida/amplitude_degrau
-      0 = t2-t=5,98
       t1 = 10.97
       t2 = 20.94
       t = 1.5(t2-t1)=14,95
+      0 = t2-t=5,98
 
 ![saida](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/bfbf0ba1-3078-4cb6-9aed-02ff51dab200)
 
