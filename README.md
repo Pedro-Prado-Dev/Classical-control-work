@@ -21,8 +21,20 @@ O método da Integral do Erro-IAE
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
+R: CHR 1:
+Kp - dividindo por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Ti - multiplicando por 1.05, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
+Td - dividindo por 8, temos o maximo pico aumentado e o tempo de acomodação aumentado.
+Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
+
+Integral do erro:
+Kp - dividindo por 2.15, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Ti - multiplicando por 0.992, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
+Td - dividindo por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
+Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
 7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
+R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilações que o novo metodo.
 
 8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
 
