@@ -6,6 +6,23 @@ O método CHR proposto por [Chien, Hrones e Reswick, 1952] propõe dois critéri
 - A resposta mais rápida do sistema com 20% de sobrevalor.
 - As sintonias são obtidas tanto para o problema servo (mudança de valor do setpoint) como para o problema regulatório (perturbação de carga com setpoint constante).
 
+O método da Integral do Erro-IAE 
+1 - Carregue a função de transferência da planta destinada ao seu grupo. Para carregar os dados no MATLAB, execute os seguintes comandos:
+- load('TransferFunction1.mat'). Isso resultará na exibição das variáveis de saída, do grau e do tempo (t). Existem 17 arquivos, considere "TransferFunctionX", com X representando o número do grupo de acordo com o arquivo do Excel, como exemplificado acima para o grupo 1.
+2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
+
+3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
+
+4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
+
+5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
+
+6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
+
+7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
+
+8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
+
 Para as bibliotecas usadas:
 
 ```python
