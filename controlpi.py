@@ -97,6 +97,8 @@ Hcl2 = Hcl2*k
 (t1 , y2 ) = cnt.step_response ( Hcl2, t1)
 y1 = y1*amplitude_degrau
 y2 = y2*amplitude_degrau
+
+# Plot dos gráficos
 plot1=plt.plot(t1.T,saida, label='Saída')
 plot2=plt.plot(t1.T,degrau,label='degrau de entrada')
 plot3=plt.plot (t1 , y1 ,label='CHR')
