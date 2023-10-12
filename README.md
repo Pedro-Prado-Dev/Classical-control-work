@@ -16,7 +16,12 @@ O método da Integral do Erro-IAE
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
+![Alt text](image\Resposta_sem_ajuste.png?raw=true "Title")
+
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
+
+![Alt text](image\Erros.png?raw=true "Title")
+
 
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
@@ -25,6 +30,7 @@ Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; 
 Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
 
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
+
 R: CHR 1:
 Kp - dividindo por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
 Ti - multiplicando por 1.05, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
@@ -37,7 +43,10 @@ Ti - multiplicando por 0.992, temos o tempo de subida aumentado, o maximo pico d
 Td - dividindo por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
+![Alt text](image\Resposta_com_ajuste.png?raw=true "Title")
+
 7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
+
 R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilações que o novo metodo.
 
 8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
