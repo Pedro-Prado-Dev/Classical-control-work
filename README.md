@@ -16,6 +16,8 @@ O método da Integral do Erro-IAE
 
       k = amplitude_saida/amplitude_degrau
       0 = t2-t=5,98
+      t1 = 10.97
+      t2 = 20.94
       t = 1.5(t2-t1)=14,95
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
