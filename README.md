@@ -20,6 +20,8 @@ O método da Integral do Erro-IAE
       t2 = 20.94
       t = 1.5(t2-t1)=14,95
 
+![saida](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/bfbf0ba1-3078-4cb6-9aed-02ff51dab200)
+
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
 ![Alt text](image\Resposta_sem_ajuste.png?raw=true "Title")
