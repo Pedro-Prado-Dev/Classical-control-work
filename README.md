@@ -24,11 +24,11 @@ O método da Integral do Erro-IAE
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
-![Alt text](image\Resposta_sem_ajuste.png?raw=true "Title")
+
 
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
 
-![Alt text](image\Erros.png?raw=true "Title")
+![Figure_(3)](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/0b6b328f-4db2-4619-b1cb-2e6b63a80b29)
 
 
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
@@ -51,7 +51,11 @@ Ti - multiplicando por 0.992, temos o tempo de subida aumentado, o maximo pico d
 Td - dividindo por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
-![Alt text](image\Resposta_com_ajuste.png?raw=true "Title")
+Sem o ajuste fino
+![Resposta_sem_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/8f1567cd-ef80-425e-8399-58fc6995fad8)
+
+Com o ajuste fino  
+![Resposta_com_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/93abd8cb-9875-4843-9c99-4c4955ea42a9)
 
 7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
 
