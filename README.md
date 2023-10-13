@@ -62,6 +62,13 @@ Com o ajuste fino
 R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilações que o novo metodo.
 
 8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
+Interface criada
+```python
+kp_USU = float(input('Entre com o valor de Kp: '))
+Ti_USU = float(input('Entre com o valor de Ti: '))
+Td_USU = float(input('Entre com o valor de Td: '))
+setpoint = float(input('Entre com o setpoint: '))
+```
 
 Para as bibliotecas usadas:
 
