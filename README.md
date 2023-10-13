@@ -14,11 +14,14 @@ O método da Integral do Erro-IAE
 
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
+```python
       k = amplitude_saida/amplitude_degrau = 4,30
       t1 = 10.97
       t2 = 20.94
       t = 1.5(t2-t1)=14,95
       0 = t2-t=5,98
+```
+
 
 ![saida](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/bfbf0ba1-3078-4cb6-9aed-02ff51dab200)
 
@@ -62,7 +65,8 @@ Com o ajuste fino
 R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilações que o novo metodo.
 
 8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
-Interface criada
+
+Interface criada:
 ```python
 kp_USU = float(input('Entre com o valor de Kp: '))
 Ti_USU = float(input('Entre com o valor de Ti: '))
