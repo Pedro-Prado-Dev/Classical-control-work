@@ -27,6 +27,7 @@ O método da Integral do Erro-IAE
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
+![Resposta_sem_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/1488255c-dc15-4307-beea-4bca34eb898a)
 
 
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
@@ -53,9 +54,6 @@ Kp - dividindo por 2.15, temos o maximo de pico reduzido e o tempo de subida é 
 Ti - multiplicando por 0.992, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
 Td - dividindo por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
-
-Sem o ajuste fino
-![Resposta_sem_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/8f1567cd-ef80-425e-8399-58fc6995fad8)
 
 Com o ajuste fino  
 ![Resposta_com_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/93abd8cb-9875-4843-9c99-4c4955ea42a9)
