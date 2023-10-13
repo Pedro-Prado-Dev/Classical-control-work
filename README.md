@@ -44,15 +44,15 @@ Metodo novo : Integral do erro: Este método, considera que a dinâmica do proce
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
 
 R: CHR 1:
-Kp - dividindo por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
-Ti - multiplicando por 1.05, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
-Td - dividindo por 8, temos o maximo pico aumentado e o tempo de acomodação aumentado.
+Kp - dividindo o Kp por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Ti - multiplicando o Ti por 1.05, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
+Td - dividindo o Td por 8, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
 Integral do erro:
-Kp - dividindo por 2.15, temos o maximo de pico reduzido e o tempo de subida é aumentado.
-Ti - multiplicando por 0.992, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
-Td - dividindo por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
+Kp - dividindo o Kp por 2.15, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Ti - multiplicando o Ti por 0.992, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
+Td - dividindo o Td por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
 Com o ajuste fino  
