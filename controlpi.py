@@ -26,9 +26,9 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-# kp = kp/2
-# Ti = Ti*1.05
-# Td = Td/8
+#kp = kp/2
+#Ti = Ti*1.05
+#Td = Td/8
 
 # Integral do erro
 kp_IE=1/((Theta/tau)+0.2)
@@ -39,9 +39,9 @@ kp_IE = kp_IE/k
 Ti_IE = Ti_IE*Theta
 Td_IE = Td_IE*Theta
 
-# kp_IE = kp_IE/2.15
-# Ti_IE = Ti_IE*0.992
-# Td_IE = Td_IE/0.3
+#kp_IE = kp_IE/2.15
+#Ti_IE = Ti_IE*0.992
+#Td_IE = Td_IE/0.3
 
 # Função para criar o PID
 def criarPID(kp,Ti,Td,Hs,feedback=0):
@@ -82,16 +82,15 @@ H_pade = cnt.tf( num_pade , den_pade )
 Hs = cnt.series (H , H_pade)
 
 # Pega as informações digitadas pelo usuário
-# kp_USU = float(input('Entre com o valor de Kp: '))
-# Ti_USU = float(input('Entre com o valor de Ti: '))
-# Td_USU = float(input('Entre com o valor de Td: '))
-# setpoint = float(input('Entre com o setpoint: '))
+kp_USU = float(input('Entre com o valor de Kp: '))
+Ti_USU = float(input('Entre com o valor de Ti: '))
+Td_USU = float(input('Entre com o valor de Td: '))
+setpoint = float(input('Entre com o setpoint: '))
 
-kp_USU = 0.21
-Ti_USU = 15
-Td_USU = 0.37
-setpoint = 21
-
+#kp_USU = 0.21
+#Ti_USU = 15
+#Td_USU = 0.37
+#setpoint = 21
 
 # Cria os PIDs sem feedback
 Hcl_CHR = criarPID(kp,Ti,Td,Hs, 0) # CHR
@@ -129,7 +128,7 @@ print(np.shape(y_CHR))
 print(np.shape(saida))
 
 
-# Plot
+# Plot Controle PID em malha aberta
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
 plot3=plt.plot(t.T, y_CHR, label='CHR')
@@ -143,7 +142,7 @@ plt.grid ()
 
 plt.show()
 
-# Plot
+# Plot Controle PID em malha fechada
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
 plot3=plt.plot(t.T, y_CHR_f, label='CHR')
@@ -157,11 +156,12 @@ plt.grid ()
 
 plt.show()
 
+#Plot Controle PID com dados do usuário
 saida_usuario = (saida/amplitude_saida)*setpoint
 
 plot1=plt.plot(t.T, saida_usuario, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot4=plt.plot(t.T, y_USU, label='PID usuário em malha aberta' )
+plot3=plt.plot(t.T, y_USU, label='PID usuário em malha aberta' )
 plot4=plt.plot(t.T, y_USU_f, label='PID usuário em malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')
@@ -172,9 +172,10 @@ plt.grid ()
 
 plt.show()
 
+#Plot dos Erros
 plot1=plt.plot(t.T, erro_CHR, label='Erro CHR malha aberta')
 plot2=plt.plot(t.T, erro_CHR_f,label='Erro CHR malha fechada')
-plot4=plt.plot(t.T, erro_IE, label='Erro Integral de erro malha aberta' )
+plot3=plt.plot(t.T, erro_IE, label='Erro Integral de erro malha aberta' )
 plot4=plt.plot(t.T, erro_IE_f, label='Erro Integral de erro malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')
