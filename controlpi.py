@@ -4,13 +4,12 @@ import matplotlib.pyplot as plt
 from scipy.io import loadmat
 
 mat=loadmat('TransferFunction6.mat')
-# print(mat)
+
 #Variáveis
 degrau = mat.get('degrau')
 saida=mat.get('saida')
-t = mat.get('t')
-
 saida = saida.flatten()
+t = mat.get('t')
 
 amplitude_degrau = max(degrau)
 amplitude_saida = max(saida)
@@ -26,9 +25,10 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-#kp = kp/2
-#Ti = Ti*1.05
-#Td = Td/8
+# Ajuste fino no CHR 1
+kp_ajuste = kp/2
+Ti_ajuste = Ti*1.05
+Td_ajuste = Td/8
 
 # Integral do erro
 kp_IE=1/((Theta/tau)+0.2)
@@ -39,9 +39,10 @@ kp_IE = kp_IE/k
 Ti_IE = Ti_IE*Theta
 Td_IE = Td_IE*Theta
 
-#kp_IE = kp_IE/2.15
-#Ti_IE = Ti_IE*0.992
-#Td_IE = Td_IE/0.3
+# Ajuste fino na Integral de erro
+kp_IE_ajuste = kp_IE/2.15
+Ti_IE_ajuste = Ti_IE*0.992
+Td_IE_ajuste = Td_IE/0.3
 
 # Função para criar o PID
 def criarPID(kp,Ti,Td,Hs,feedback=0):
@@ -62,8 +63,10 @@ def criarPID(kp,Ti,Td,Hs,feedback=0):
     Hctrl = cnt.parallel (Hctrl1 , Hkd)
     Hdel = cnt.series (Hs , Hctrl)
     Hcl1 = Hdel
+    # Aplica o feedback
     if feedback == 1:
         Hcl1 = cnt.feedback(Hdel, 1)
+        
     Hcl1 = Hcl1*k
     
     return Hcl1
@@ -87,10 +90,10 @@ Ti_USU = float(input('Entre com o valor de Ti: '))
 Td_USU = float(input('Entre com o valor de Td: '))
 setpoint = float(input('Entre com o setpoint: '))
 
-#kp_USU = 0.21
-#Ti_USU = 15
-#Td_USU = 0.37
-#setpoint = 21
+# kp_USU = 0.21
+# Ti_USU = 15
+# Td_USU = 0.37
+# setpoint = 21
 
 # Cria os PIDs sem feedback
 Hcl_CHR = criarPID(kp,Ti,Td,Hs, 0) # CHR
@@ -99,7 +102,9 @@ Hcl_USU = criarPID(kp_USU,Ti_USU,Td_USU,Hs, 0) # Usuário
 
 # Cria os PIDs com feedback
 Hcl_CHR_f = criarPID(kp,Ti,Td,Hs, 1) # CHR
+Hcl_CHR_f_ajuste = criarPID(kp_ajuste,Ti_ajuste,Td_ajuste,Hs, 1) # CHR com ajuste fino
 Hcl_IE_f = criarPID(kp_IE,Ti_IE,Td_IE,Hs, 1) # Integral de erro
+Hcl_IE_f_ajuste = criarPID(kp_IE_ajuste,Ti_IE_ajuste,Td_IE_ajuste,Hs, 1) # Integral de erro com ajuste fino
 Hcl_USU_f = criarPID(kp_USU,Ti_USU,Td_USU,Hs, 1) # Usuário
 
 # Calcula a resposta ao impulso para os PIDs sem feedack
@@ -112,21 +117,23 @@ y_USU = y_USU*amplitude_degrau
 
 # Calcula a resposta ao impulso para os PIDs com feedack
 (t , y_CHR_f ) = cnt.step_response ( Hcl_CHR_f, t)
+(t , y_CHR_f_ajuste ) = cnt.step_response ( Hcl_CHR_f_ajuste, t)
 (t , y_IE_f ) = cnt.step_response ( Hcl_IE_f, t)
+(t , y_IE_f_ajuste ) = cnt.step_response ( Hcl_IE_f_ajuste, t)
 (t , y_USU_f ) = cnt.step_response ( Hcl_USU_f, t)
 y_CHR_f = y_CHR_f*amplitude_degrau
+y_CHR_f_ajuste = y_CHR_f_ajuste*amplitude_degrau
 y_IE_f = y_IE_f*amplitude_degrau
+y_IE_f_ajuste = y_IE_f_ajuste*amplitude_degrau
 y_USU_f = y_USU_f*amplitude_degrau
 
+# Calcula os vetores de erro em malha aberta
 erro_CHR = y_CHR - saida
 erro_IE = y_IE - saida
 
+# Calcula os vetores de erro em malha fechada
 erro_CHR_f = y_CHR_f - saida
 erro_IE_f = y_IE_f - saida
-
-print(np.shape(y_CHR))
-print(np.shape(saida))
-
 
 # Plot Controle PID em malha aberta
 plot1=plt.plot(t.T, saida, label='Saída')
@@ -152,6 +159,20 @@ plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
 plt.title('Controle PID em malha fechada')
+plt.grid ()
+
+plt.show()
+
+# Plot Controle PID em malha fechada com ajuste fino
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot3=plt.plot(t.T, y_CHR_f_ajuste, label='CHR')
+plot4=plt.plot(t.T, y_IE_f_ajuste, label='Integral do erro' )
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Controle PID em malha fechada com ajuste fino')
 plt.grid ()
 
 plt.show()

@@ -30,10 +30,16 @@ O método da Integral do Erro-IAE
 ![Resposta_sem_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/1488255c-dc15-4307-beea-4bca34eb898a)
 
 
+De um modo geral, pode-se dizer que a aproximação não está satisfatória, pois o controlador está com um tempo de subida bem menor do que o tempo de subida esperado. Contudo, um estudo mais aprofundado do ambiente real em que o sistema seria aplicado seria necessário para uma conclusão mais precisa, já que dependendo da aplicação a diferença entre os tempos de subida pode não ser tão relevante.
+
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
 
 ![Figure_(3)](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/0b6b328f-4db2-4619-b1cb-2e6b63a80b29)
 
+Como é possível perceber com o gráfico acima, o erro é bem maior quando o sistema é de malha aberta, o que já era esperado, uma vez que o sistema não recebe um feedback do impacto que a sua atuação está causando no ambiente. Vale notar ainda, que no sistema em malha aberta a resposta divergiu, o que inviabiliza a sua aplicação em ambientes reais sem um ajuste fino prévio.
+
+
+Já o sistema em malha fechada apresentou erros bem menores quando comparado com o sistema em malha aberta, e esses erros estão principalmente localizados nos segundos iniciais do funcionamento do sistema. Ao contrário do outro sistema, esse convergiu com um tempo similar ao esperado e assim pode ser aplicado em um ambiente real com alguns pequenos ajustes
 
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
