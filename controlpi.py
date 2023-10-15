@@ -93,7 +93,7 @@ setpoint = float(input('Entre com o setpoint: '))
 # kp_USU = 0.21
 # Ti_USU = 15
 # Td_USU = 0.37
-# setpoint = 21
+# setpoint = 20.922
 
 # Cria os PIDs sem feedback
 Hcl_CHR = criarPID(kp,Ti,Td,Hs, 0) # CHR
