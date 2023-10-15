@@ -15,9 +15,9 @@ O método da Integral do Erro-IAE
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
 ```python
-      amplitude_saida = 21
+      amplitude_saida = 20,922
       amplitude_degrau = 6
-      k = amplitude_saida/amplitude_degrau = 3,5
+      k = amplitude_saida/amplitude_degrau = 3,487
       t1 = 10,97
       t2 = 20,94
       t = 1.5(t2-t1)=14,95
