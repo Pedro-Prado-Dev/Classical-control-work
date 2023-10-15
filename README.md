@@ -47,7 +47,36 @@ Já o sistema em malha fechada apresentou erros bem menores quando comparado com
 
 Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; RESWICK (1952). O método CHR é baseado em dois critérios: a resposta mais rápida sem sobressinal; e a resposta mais rápida possível com 20% de sobressinal. O método em questão considera tanto a sintonia para o problema regulador como para o problema servo. Em todos os casos, considera-se o sistema se comportando como um sistema de primeira ordem com atraso, com ganho estático K, constante de tempo t e tempo morto. A determinação desses parâmetros é feita analisando a resposta do processo por meio de um experimento em malha aberta a uma entrada em degrau.
 
+```python
+      Calculo do CHR
+      kp = (0.6*tau)/(k*Theta)
+      kp = (0,6*14.95)/(3,487*5.98)
+      kp = 0,4302
+
+      Ti = tau
+      Ti = 14,95
+
+      Td = 0.5*Theta
+      Td = 0.5*5.98
+      Td = 2,9900
+```
+
 Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
+
+```python
+      Calculo da Integral do erro:
+      kp = 1/((Theta/tau)+0.2)
+      kp = 1/((5.98/14,95)+0.2)
+      kp = 0,4780
+
+      Ti = (0.3*(Theta/tau)+1.2)/((Theta/tau)+0.08)
+      Ti = (0.3*(5.98/14.95)+1.2)/((5.98/14.95)+0.08)
+      Ti = 16.4450
+
+      Td = (1/(90*(Theta/tau)))
+      Td = (1/(90*(5.98/14.95)))
+      Td = 0.1661
+```
 
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
 
