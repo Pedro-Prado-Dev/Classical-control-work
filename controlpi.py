@@ -25,8 +25,8 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-# Ajuste fino no CHR 1
-kp_ajuste = kp/2
+# # Ajuste fino no CHR 1
+kp_ajuste = kp*0.8
 Ti_ajuste = Ti*1.05
 Td_ajuste = Td/8
 
@@ -40,7 +40,7 @@ Ti_IE = Ti_IE*Theta
 Td_IE = Td_IE*Theta
 
 # Ajuste fino na Integral de erro
-kp_IE_ajuste = kp_IE/2.15
+kp_IE_ajuste = kp_IE/1.2
 Ti_IE_ajuste = Ti_IE*0.992
 Td_IE_ajuste = Td_IE/0.3
 
@@ -66,9 +66,6 @@ def criarPID(kp,Ti,Td,Hs,feedback=0):
     # Aplica o feedback
     if feedback == 1:
         Hcl1 = cnt.feedback(Hdel, 1)
-        
-    Hcl1 = Hcl1*k
-    
     return Hcl1
 
 print(kp)
@@ -83,6 +80,7 @@ n_pade = 20
 ( num_pade , den_pade ) = cnt.pade ( Theta , n_pade )
 H_pade = cnt.tf( num_pade , den_pade )
 Hs = cnt.series (H , H_pade)
+Hs_f = cnt.feedback(Hs, 1)
 
 # Pega as informações digitadas pelo usuário
 kp_USU = float(input('Entre com o valor de Kp: '))
@@ -93,12 +91,7 @@ setpoint = float(input('Entre com o setpoint: '))
 # kp_USU = 0.21
 # Ti_USU = 15
 # Td_USU = 0.37
-# setpoint = 21
-
-# Cria os PIDs sem feedback
-Hcl_CHR = criarPID(kp,Ti,Td,Hs, 0) # CHR
-Hcl_IE = criarPID(kp_IE,Ti_IE,Td_IE,Hs, 0) # Integral de erro
-Hcl_USU = criarPID(kp_USU,Ti_USU,Td_USU,Hs, 0) # Usuário
+# setpoint = 6
 
 # Cria os PIDs com feedback
 Hcl_CHR_f = criarPID(kp,Ti,Td,Hs, 1) # CHR
@@ -107,102 +100,121 @@ Hcl_IE_f = criarPID(kp_IE,Ti_IE,Td_IE,Hs, 1) # Integral de erro
 Hcl_IE_f_ajuste = criarPID(kp_IE_ajuste,Ti_IE_ajuste,Td_IE_ajuste,Hs, 1) # Integral de erro com ajuste fino
 Hcl_USU_f = criarPID(kp_USU,Ti_USU,Td_USU,Hs, 1) # Usuário
 
-# Calcula a resposta ao impulso para os PIDs sem feedack
-(t , y_CHR ) = cnt.step_response ( Hcl_CHR, t)
-(t , y_IE ) = cnt.step_response ( Hcl_IE, t)
-(t , y_USU ) = cnt.step_response ( Hcl_USU, t)
-y_CHR = y_CHR*amplitude_degrau
-y_IE = y_IE*amplitude_degrau
-y_USU = y_USU*amplitude_degrau
-
 # Calcula a resposta ao impulso para os PIDs com feedack
 (t , y_CHR_f ) = cnt.step_response ( Hcl_CHR_f, t)
 (t , y_CHR_f_ajuste ) = cnt.step_response ( Hcl_CHR_f_ajuste, t)
 (t , y_IE_f ) = cnt.step_response ( Hcl_IE_f, t)
 (t , y_IE_f_ajuste ) = cnt.step_response ( Hcl_IE_f_ajuste, t)
 (t , y_USU_f ) = cnt.step_response ( Hcl_USU_f, t)
+(t , y_esti ) = cnt.step_response ( Hs, t)
+(t , y_esti_f ) = cnt.step_response ( Hs_f, t)
 y_CHR_f = y_CHR_f*amplitude_degrau
 y_CHR_f_ajuste = y_CHR_f_ajuste*amplitude_degrau
 y_IE_f = y_IE_f*amplitude_degrau
 y_IE_f_ajuste = y_IE_f_ajuste*amplitude_degrau
 y_USU_f = y_USU_f*amplitude_degrau
+y_esti = y_esti*amplitude_degrau
+y_esti_f = y_esti_f*amplitude_degrau
 
 # Calcula os vetores de erro em malha aberta
-erro_CHR = y_CHR - saida
-erro_IE = y_IE - saida
+erro = y_esti[len(y_esti)-1] - amplitude_degrau
 
 # Calcula os vetores de erro em malha fechada
-erro_CHR_f = y_CHR_f - saida
-erro_IE_f = y_IE_f - saida
+erro_f = y_esti_f[len(y_esti_f)-1] - amplitude_degrau
 
-# Plot Controle PID em malha aberta
+print(erro)
+print(erro_f)
+
+# Plot Controle PID em malha aberta e fechada
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot3=plt.plot(t.T, y_CHR, label='CHR')
-plot4=plt.plot(t.T, y_IE, label='Integral do erro' )
+plot3=plt.plot(t.T, y_esti, label='Malha Aberta')
+plot4=plt.plot(t.T, y_esti_f, label='Malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
-plt.title('Controle PID em malha aberta')
+plt.title('Saída da planta em malha aberta e fechada')
 plt.grid ()
 
 plt.show()
 
-# Plot Controle PID em malha fechada
+# Plot Controle PID CHR
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
 plot3=plt.plot(t.T, y_CHR_f, label='CHR')
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Controle PID CHR')
+plt.grid ()
+
+plt.show()
+
+# Plot Controle PID CHR ajustado
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot3=plt.plot(t.T, y_CHR_f_ajuste, label='CHR')
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Controle PID CHR ajustado')
+plt.grid ()
+
+plt.show()
+
+# Plot Controle PID Integral do erro
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
 plot4=plt.plot(t.T, y_IE_f, label='Integral do erro' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
-plt.title('Controle PID em malha fechada')
+plt.title('Controle PID Integral de erro')
 plt.grid ()
 
 plt.show()
 
-# Plot Controle PID em malha fechada com ajuste fino
+# Plot Controle PID Integral do erro ajustado
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot3=plt.plot(t.T, y_CHR_f_ajuste, label='CHR')
 plot4=plt.plot(t.T, y_IE_f_ajuste, label='Integral do erro' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
-plt.title('Controle PID em malha fechada com ajuste fino')
+plt.title('Controle PID Integral de erro ajustado')
+plt.grid ()
+
+plt.show()
+
+# Plot Comparação CHR e Integral do erro
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot4=plt.plot(t.T, y_IE_f_ajuste, label='Integral do erro' )
+plot4=plt.plot(t.T, y_CHR_f_ajuste, label='CHR' )
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Comparação PID CHR e Integral de erro ajustados')
 plt.grid ()
 
 plt.show()
 
 #Plot Controle PID com dados do usuário
-saida_usuario = (saida/amplitude_saida)*setpoint
+degrau_usuario = (degrau/amplitude_degrau)*setpoint
 
-plot1=plt.plot(t.T, saida_usuario, label='Saída')
-plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot3=plt.plot(t.T, y_USU, label='PID usuário em malha aberta' )
+plot2=plt.plot(t.T, degrau_usuario,label='degrau de entrada')
 plot4=plt.plot(t.T, y_USU_f, label='PID usuário em malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
 plt.title('Controle PID com dados do usuário')
-plt.grid ()
-
-plt.show()
-
-#Plot dos Erros
-plot1=plt.plot(t.T, erro_CHR, label='Erro CHR malha aberta')
-plot2=plt.plot(t.T, erro_CHR_f,label='Erro CHR malha fechada')
-plot3=plt.plot(t.T, erro_IE, label='Erro Integral de erro malha aberta' )
-plot4=plt.plot(t.T, erro_IE_f, label='Erro Integral de erro malha fechada' )
-
-plt.xlabel ( ' t [ s ] ')
-plt.ylabel('Amplitude')
-plt.legend(loc="upper left")
-plt.title('Erros')
 plt.grid ()
 
 plt.show()
