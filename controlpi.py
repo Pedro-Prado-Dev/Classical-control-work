@@ -129,6 +129,19 @@ print(erro_f)
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
 plot3=plt.plot(t.T, y_esti, label='Malha Aberta')
+
+plt.xlabel ( ' t [ s ] ')
+plt.ylabel('Amplitude')
+plt.legend(loc="upper left")
+plt.title('Saída da planta em malha aberta e fechada')
+plt.grid ()
+
+plt.show()
+
+# Plot Controle PID em malha aberta e fechada
+plot1=plt.plot(t.T, saida, label='Saída')
+plot2=plt.plot(t.T, degrau,label='degrau de entrada')
+plot3=plt.plot(t.T, y_esti, label='Malha Aberta')
 plot4=plt.plot(t.T, y_esti_f, label='Malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')

@@ -14,6 +14,8 @@ O método da Integral do Erro-IAE
 
 2 - Escolha o método de identificação da planta e, com isso, encontre os valores de k, θ e τ.
 
+Utlizamos o método de Smith.
+
 ```python
       amplitude_saida = 20,922
       amplitude_degrau = 6
@@ -38,17 +40,23 @@ De um modo geral, pode-se dizer que a aproximação não está satisfatória, po
 
 ![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/ceb4e54b-20b1-4ffa-9a48-1af0bde24eba)
 
-Como é possível perceber com o gráfico acima, o erro é bem maior quando o sistema é de malha aberta, o que já era esperado, uma vez que o sistema não recebe um feedback do impacto que a sua atuação está causando no ambiente. Vale notar ainda, que no sistema em malha aberta a resposta divergiu, o que inviabiliza a sua aplicação em ambientes reais sem um ajuste fino prévio.
+
+```python
+      amplitude_saida = 20,922
+      amplitude_degrau = 6
+      erro_malha_aberta = amplitude_saida_aberta - amplitude_degrau
+      erro_malha_aberta = 14.84651367
+      erro_malha_fechada = amplitude_saida_fechada - amplitude_degrau
+      erro_malha_fechada = -1.51928109
+```
 
 
-Já o sistema em malha fechada apresentou erros bem menores quando comparado com o sistema em malha aberta, e esses erros estão principalmente localizados nos segundos iniciais do funcionamento do sistema. Ao contrário do outro sistema, esse convergiu com um tempo similar ao esperado e assim pode ser aplicado em um ambiente real com alguns pequenos ajustes
+Como é possível perceber com o gráfico acima, o erro é bem maior quando o sistema é de malha aberta, o que já era esperado, uma vez que o sistema não recebe um feedback do impacto que a sua atuação está causando no ambiente.
+
 
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
 Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; RESWICK (1952). O método CHR é baseado em dois critérios: a resposta mais rápida sem sobressinal; e a resposta mais rápida possível com 20% de sobressinal. O método em questão considera tanto a sintonia para o problema regulador como para o problema servo. Em todos os casos, considera-se o sistema se comportando como um sistema de primeira ordem com atraso, com ganho estático K, constante de tempo t e tempo morto. A determinação desses parâmetros é feita analisando a resposta do processo por meio de um experimento em malha aberta a uma entrada em degrau.
-![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/0528c533-b830-4d49-9275-3951f0a44381)
-
-
 
 ```python
       Calculo do CHR
@@ -64,9 +72,9 @@ Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; 
       Td = 2,9900
 ```
 
-Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/0528c533-b830-4d49-9275-3951f0a44381)
 
-![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/26fb4761-130d-4092-a4dc-f4ecf6dcf687)
+Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
 
 ```python
       Calculo da Integral do erro:
@@ -82,6 +90,8 @@ Metodo novo : Integral do erro: Este método, considera que a dinâmica do proce
       Td = (1/(90*(5.98/14.95)))
       Td = 0.1661
 ```
+
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/26fb4761-130d-4092-a4dc-f4ecf6dcf687)
 
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
 
@@ -102,7 +112,7 @@ Com o ajuste fino
 
 7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
 
-R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilações que o novo metodo.
+R: Sim, pois sem a relização do ajuste fino o metodo tradicional teve mais oscilação quando comparado com o método novo, apesar de ter estabilizado mais rápido.
 
 8 - Crie uma interface que permita que o usuário entre com os dados e os parâmetros do controlador PID e do Setpoint.
 
@@ -135,7 +145,7 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-kp = kp/2
+kp = kp/0.8
 Ti = Ti*1.05
 Td = Td/8
 ```
@@ -150,7 +160,7 @@ kp_IE = kp_IE/k
 Ti_IE = Ti_IE*Theta
 Td_IE = Td_IE*Theta
 
-kp_IE = kp_IE/2.15
+kp_IE = kp_IE/1.2
 Ti_IE = Ti_IE*0.992
 Td_IE = Td_IE/0.3
 ```
