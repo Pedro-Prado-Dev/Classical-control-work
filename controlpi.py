@@ -25,7 +25,7 @@ kp=(0.6*tau)/(k*Theta)
 Ti=tau
 Td=0.5*Theta
 
-# # Ajuste fino no CHR 1
+# Ajuste fino no CHR 1
 kp_ajuste = kp*0.8
 Ti_ajuste = Ti*1.05
 Td_ajuste = Td/8
@@ -68,9 +68,9 @@ def criarPID(kp,Ti,Td,Hs,feedback=0):
         Hcl1 = cnt.feedback(Hdel, 1)
     return Hcl1
 
-print(kp)
-print(Ti)
-print(Td)
+print(kp_IE)
+print(Ti_IE)
+print(Td_IE)
 
 # Função de transferência da planta
 num = np. array ([k])
@@ -133,7 +133,7 @@ plot3=plt.plot(t.T, y_esti, label='Malha Aberta')
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
 plt.legend(loc="upper left")
-plt.title('Saída da planta em malha aberta e fechada')
+plt.title('Saída da planta')
 plt.grid ()
 
 plt.show()
@@ -226,7 +226,7 @@ plot4=plt.plot(t.T, y_USU_f, label='PID usuário em malha fechada' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
-plt.legend(loc="upper left")
+plt.legend(loc="lower right")
 plt.title('Controle PID com dados do usuário')
 plt.grid ()
 
