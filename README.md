@@ -27,14 +27,14 @@ Utlizamos o método de Smith.
 ```
 
 
-![saida](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/bfbf0ba1-3078-4cb6-9aed-02ff51dab200)
+![saida](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/019a167d-bb17-4bae-ae2a-152f875d859e)
+
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
 ![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/a4ec6d70-3fd6-4896-a59e-529f71913f7e)
 
-
-De um modo geral, pode-se dizer que a aproximação não está satisfatória, pois o controlador está com um tempo de subida bem menor do que o tempo de subida esperado. Contudo, um estudo mais aprofundado do ambiente real em que o sistema seria aplicado seria necessário para uma conclusão mais precisa, já que dependendo da aplicação a diferença entre os tempos de subida pode não ser tão relevante.
+Pode-se dizer que a aproximação está satisfatória, pois o erro médio entre a resposta fornecida e a estimada é por volta de 0.05.
 
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
 
