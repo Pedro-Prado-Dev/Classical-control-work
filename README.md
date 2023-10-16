@@ -29,14 +29,14 @@ O método da Integral do Erro-IAE
 
 3 - Plote a resposta original em relação à estimada na mesma figura e verifique se a aproximação foi satisfatória.
 
-![Resposta_sem_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/1488255c-dc15-4307-beea-4bca34eb898a)
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/a4ec6d70-3fd6-4896-a59e-529f71913f7e)
 
 
 De um modo geral, pode-se dizer que a aproximação não está satisfatória, pois o controlador está com um tempo de subida bem menor do que o tempo de subida esperado. Contudo, um estudo mais aprofundado do ambiente real em que o sistema seria aplicado seria necessário para uma conclusão mais precisa, já que dependendo da aplicação a diferença entre os tempos de subida pode não ser tão relevante.
 
 4 - Apresente os valores de erro da planta em malha aberta e fechada, e faça comentários sobre os resultados.
 
-![Figure_(3)](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/0b6b328f-4db2-4619-b1cb-2e6b63a80b29)
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/ceb4e54b-20b1-4ffa-9a48-1af0bde24eba)
 
 Como é possível perceber com o gráfico acima, o erro é bem maior quando o sistema é de malha aberta, o que já era esperado, uma vez que o sistema não recebe um feedback do impacto que a sua atuação está causando no ambiente. Vale notar ainda, que no sistema em malha aberta a resposta divergiu, o que inviabiliza a sua aplicação em ambientes reais sem um ajuste fino prévio.
 
@@ -46,6 +46,9 @@ Já o sistema em malha fechada apresentou erros bem menores quando comparado com
 5 - Nesta etapa, você deve comparar um dos métodos tradicionais mencionados acima com os métodos de sintonia de Cohen e Coon para Curva de Reação e o método da Integral do Erro.
 
 Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; RESWICK (1952). O método CHR é baseado em dois critérios: a resposta mais rápida sem sobressinal; e a resposta mais rápida possível com 20% de sobressinal. O método em questão considera tanto a sintonia para o problema regulador como para o problema servo. Em todos os casos, considera-se o sistema se comportando como um sistema de primeira ordem com atraso, com ganho estático K, constante de tempo t e tempo morto. A determinação desses parâmetros é feita analisando a resposta do processo por meio de um experimento em malha aberta a uma entrada em degrau.
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/0528c533-b830-4d49-9275-3951f0a44381)
+
+
 
 ```python
       Calculo do CHR
@@ -62,6 +65,8 @@ Metodo clássico: CHR 1: O método CHR é baseado no trabalho de CHIEN; HRONES; 
 ```
 
 Metodo novo : Integral do erro: Este método, considera que a dinâmica do processo pode ser representada por um modelo de primeira ordem com ganho K, constante de tempo τ (tau) e tempo morto θ (teta). Em Lopez et al. (1967), é descrito um método que minimiza os índices (IAE ou ITAE) para um problema do tipo regulador (perturbação de carga). Foram considerados sistemas com fator de incontrolabilidade entre 0 e 1. Quanto maior a integral do erro, pior é a malha de controle em questão. 
+
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/26fb4761-130d-4092-a4dc-f4ecf6dcf687)
 
 ```python
       Calculo da Integral do erro:
@@ -81,19 +86,19 @@ Metodo novo : Integral do erro: Este método, considera que a dinâmica do proce
 6 - Realize o ajuste fino, se necessário, e comente o que foi feito e qual o reflexo desse ajuste na resposta do sistema.
 
 R: CHR 1:
-Kp - dividindo o Kp por 2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Kp - multiplicando o Kp por 0.8, temos o maximo de pico aumentado e o tempo de subida é reduzido.
 Ti - multiplicando o Ti por 1.05, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
 Td - dividindo o Td por 8, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
 Integral do erro:
-Kp - dividindo o Kp por 2.15, temos o maximo de pico reduzido e o tempo de subida é aumentado.
+Kp - dividindo o Kp por 1.2, temos o maximo de pico reduzido e o tempo de subida é aumentado.
 Ti - multiplicando o Ti por 0.992, temos o tempo de subida aumentado, o maximo pico diminuido, o tempo de acomodação reduzida e a eliminação do erro regime permanente.
 Td - dividindo o Td por 0.3, temos o maximo pico aumentado e o tempo de acomodação aumentado.
 Com esses ajustes o resultado obtido foi mais proximo do resultado esperado.
 
 Com o ajuste fino  
-![Resposta_com_ajuste](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/100048797/93abd8cb-9875-4843-9c99-4c4955ea42a9)
+![Figure_1](https://github.com/Pedro-Prado-Dev/Classical-control-work/assets/110736909/6bc06b6f-65b9-4a77-9765-c91d0c5b8da9)
 
 7 - Ao comparar os métodos, você identificou alguma desvantagem no método tradicional? Caso sim, o novo método resolveu o problema? Explique!
 
