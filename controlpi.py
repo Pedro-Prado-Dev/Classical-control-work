@@ -45,7 +45,7 @@ Ti_IE_ajuste = Ti_IE*0.992
 Td_IE_ajuste = Td_IE/0.3
 
 # Função para criar o PID
-def criarPID(kp,Ti,Td,Hs,feedback=0):
+def criarPID(kp,Ti,Td,Hs):
     # Controlador proporcional
     numkp = np. array ([kp])
     denkp = np. array ([1])
@@ -64,8 +64,7 @@ def criarPID(kp,Ti,Td,Hs,feedback=0):
     Hdel = cnt.series (Hs , Hctrl)
     Hcl1 = Hdel
     # Aplica o feedback
-    if feedback == 1:
-        Hcl1 = cnt.feedback(Hdel, 1)
+    Hcl1 = cnt.feedback(Hdel, 1)
     return Hcl1
 
 print(kp_IE)
@@ -88,38 +87,40 @@ Ti_USU = float(input('Entre com o valor de Ti: '))
 Td_USU = float(input('Entre com o valor de Td: '))
 setpoint = float(input('Entre com o setpoint: '))
 
-# kp_USU = 0.21
-# Ti_USU = 15
-# Td_USU = 0.37
+# kp_USU = 0.4780
+# Ti_USU = 16.4450
+# Td_USU = 0.1661
 # setpoint = 6
 
-# Cria os PIDs com feedback
-Hcl_CHR_f = criarPID(kp,Ti,Td,Hs, 1) # CHR
-Hcl_CHR_f_ajuste = criarPID(kp_ajuste,Ti_ajuste,Td_ajuste,Hs, 1) # CHR com ajuste fino
-Hcl_IE_f = criarPID(kp_IE,Ti_IE,Td_IE,Hs, 1) # Integral de erro
-Hcl_IE_f_ajuste = criarPID(kp_IE_ajuste,Ti_IE_ajuste,Td_IE_ajuste,Hs, 1) # Integral de erro com ajuste fino
-Hcl_USU_f = criarPID(kp_USU,Ti_USU,Td_USU,Hs, 1) # Usuário
+# Cria os PIDs
+Hcl_CHR = criarPID(kp,Ti,Td,Hs) # CHR
+Hcl_CHR_ajuste = criarPID(kp_ajuste,Ti_ajuste,Td_ajuste,Hs) # CHR com ajuste fino
+Hcl_IE = criarPID(kp_IE,Ti_IE,Td_IE,Hs) # Integral de erro
+Hcl_IE_ajuste = criarPID(kp_IE_ajuste,Ti_IE_ajuste,Td_IE_ajuste,Hs) # Integral de erro com ajuste fino
+Hcl_USU = criarPID(kp_USU,Ti_USU,Td_USU,Hs) # Usuário
 
-# Calcula a resposta ao impulso para os PIDs com feedack
-(t , y_CHR_f ) = cnt.step_response ( Hcl_CHR_f, t)
-(t , y_CHR_f_ajuste ) = cnt.step_response ( Hcl_CHR_f_ajuste, t)
-(t , y_IE_f ) = cnt.step_response ( Hcl_IE_f, t)
-(t , y_IE_f_ajuste ) = cnt.step_response ( Hcl_IE_f_ajuste, t)
-(t , y_USU_f ) = cnt.step_response ( Hcl_USU_f, t)
+# Calcula a resposta ao impulso para os PIDs criados
+(t , y_CHR ) = cnt.step_response ( Hcl_CHR, t)
+(t , y_CHR_ajuste ) = cnt.step_response ( Hcl_CHR_ajuste, t)
+(t , y_IE ) = cnt.step_response ( Hcl_IE, t)
+(t , y_IE_ajuste ) = cnt.step_response ( Hcl_IE_ajuste, t)
+(t , y_USU ) = cnt.step_response ( Hcl_USU, t)
 (t , y_esti ) = cnt.step_response ( Hs, t)
 (t , y_esti_f ) = cnt.step_response ( Hs_f, t)
-y_CHR_f = y_CHR_f*amplitude_degrau
-y_CHR_f_ajuste = y_CHR_f_ajuste*amplitude_degrau
-y_IE_f = y_IE_f*amplitude_degrau
-y_IE_f_ajuste = y_IE_f_ajuste*amplitude_degrau
-y_USU_f = y_USU_f*amplitude_degrau
+
+# Multiplica pela amplitude do degrau
+y_CHR = y_CHR*amplitude_degrau
+y_CHR_ajuste = y_CHR_ajuste*amplitude_degrau
+y_IE = y_IE*amplitude_degrau
+y_IE_ajuste = y_IE_ajuste*amplitude_degrau
+y_USU = y_USU*amplitude_degrau
 y_esti = y_esti*amplitude_degrau
 y_esti_f = y_esti_f*amplitude_degrau
 
-# Calcula os vetores de erro em malha aberta
+# Calcula o erro em malha aberta
 erro = y_esti[len(y_esti)-1] - amplitude_degrau
 
-# Calcula os vetores de erro em malha fechada
+# Calcula o erro em malha fechada
 erro_f = y_esti_f[len(y_esti_f)-1] - amplitude_degrau
 
 print(erro)
@@ -155,7 +156,7 @@ plt.show()
 # Plot Controle PID CHR
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot3=plt.plot(t.T, y_CHR_f, label='CHR')
+plot3=plt.plot(t.T, y_CHR, label='CHR')
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
@@ -168,7 +169,7 @@ plt.show()
 # Plot Controle PID CHR ajustado
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot3=plt.plot(t.T, y_CHR_f_ajuste, label='CHR')
+plot3=plt.plot(t.T, y_CHR_ajuste, label='CHR')
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
@@ -181,7 +182,7 @@ plt.show()
 # Plot Controle PID Integral do erro
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot4=plt.plot(t.T, y_IE_f, label='Integral do erro' )
+plot4=plt.plot(t.T, y_IE, label='Integral do erro' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
@@ -194,7 +195,7 @@ plt.show()
 # Plot Controle PID Integral do erro ajustado
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot4=plt.plot(t.T, y_IE_f_ajuste, label='Integral do erro' )
+plot4=plt.plot(t.T, y_IE_ajuste, label='Integral do erro' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
@@ -207,8 +208,8 @@ plt.show()
 # Plot Comparação CHR e Integral do erro
 plot1=plt.plot(t.T, saida, label='Saída')
 plot2=plt.plot(t.T, degrau,label='degrau de entrada')
-plot4=plt.plot(t.T, y_IE_f_ajuste, label='Integral do erro' )
-plot4=plt.plot(t.T, y_CHR_f_ajuste, label='CHR' )
+plot4=plt.plot(t.T, y_IE_ajuste, label='Integral do erro' )
+plot4=plt.plot(t.T, y_CHR_ajuste, label='CHR' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
@@ -222,7 +223,7 @@ plt.show()
 degrau_usuario = (degrau/amplitude_degrau)*setpoint
 
 plot2=plt.plot(t.T, degrau_usuario,label='degrau de entrada')
-plot4=plt.plot(t.T, y_USU_f, label='PID usuário em malha fechada' )
+plot4=plt.plot(t.T, y_USU, label='PID usuário' )
 
 plt.xlabel ( ' t [ s ] ')
 plt.ylabel('Amplitude')
