@@ -44,10 +44,10 @@ Pode-se dizer que a aproximação está satisfatória, pois o erro médio entre 
 ```python
       amplitude_saida = 20,922
       amplitude_degrau = 6
-      erro_malha_aberta = amplitude_saida_aberta - amplitude_degrau
-      erro_malha_aberta = 14.84651367
-      erro_malha_fechada = amplitude_saida_fechada - amplitude_degrau
-      erro_malha_fechada = -1.51928109
+      erro_malha_aberta = amplitude_degrau - amplitude_saida_aberta
+      erro_malha_aberta = -14.84651367
+      erro_malha_fechada = amplitude_degrau - amplitude_saida_fechada
+      erro_malha_fechada = 1.51928109
 ```
 
 
